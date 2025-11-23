@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Switch Board Color Customizer</title>
+  <style>
+
+
+/* --- GLOBAL --- */
+body {
+  font-family: sans-serif;
+  background: url('images/wall.png') center/cover no-repeat;
+  padding: 4vw 2vw;
+  text-align: center;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* animated background overlay */
+#wallOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: linear-gradient(270deg, #3366ff, #33ccff, #9933ff);
+  background-size: 600% 600%;
+  animation: gradientShift 15s ease infinite;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- SWITCH BOARD --- */
+.switch-wrapper {
+  position: relative;
+  width: min(90vw, 500px);
+  margin: 0 auto 5vh;
+}
+#switchBoard {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+#colorOverlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: 12px;
+  background-color: #3366ff;
+  opacity: 0.6;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+/* --- COLOR WHEEL --- */
+.wheel-container {
+  position: relative;
+  width: min(80vw, 400px);
+  aspect-ratio: 1/1;
+  margin: 5vh auto;
+  border-radius: 50%;
+  background: conic-gradient(red, orange, yellow, green, cyan, blue, violet, red);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+}
+.center-hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 20%; height: 20%;
+  background: #222;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  z-index: 2;
+}
+.swatch {
+  position: absolute;
+  width: 12%; height: 12%;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 0 10px rgba(51,102,255,0.6);
+}
+.swatch:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(51,102,255,0.9), 0 0 25px rgba(51,102,255,0.6);
+}
+
+/* --- PREVIEW + LABEL --- */
+.preview {
+  margin: 3vh auto 0;
+  height: 50px; width: 150px;
+  border-radius: 8px;
+  background: #3366ff;
+  box-shadow: 0 0 15px rgba(51,102,255,0.7);
+}
+.hex-label { margin-top: 1vh; font-weight: bold; }
+
+/* --- SHADE CHART --- */
+.shade-chart {
+  margin-top: 3vh;
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 10px;
+}
+.shade {
+  width: 60px; height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+/* --- BUTTON --- */
+.icon-trigger {
+  margin: 8vh auto 2vh;
+  padding: 12px 24px;
+  font-size: clamp(14px, 2vw, 18px);
+  background: rgba(51,102,255,0.6);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3), 0 0 10px rgba(51,102,255,0.6);
+  transition: transform 0.3s, background 0.3s;
+}
+.icon-trigger:hover {
+  background: rgba(37,78,218,0.8);
+  transform: scale(1.05);
+}
+
+/* --- ICON ARC --- */
+.icon-arc {
+  position: relative;
+  width: min(90vw, 600px);
+  height: min(40vh, 300px);
+  margin: 8vh auto 4vh;
+  perspective: 1000px;
+}
+.icon-slot {
+  position: absolute;
+  width: 12vw; max-width: 60px;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
+}
+.icon-slot img {
+  width: 100%; height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  transition: transform 0.4s;
+}
+.icon-slot:hover img {
+  transform: scale(1.1) rotateY(10deg);
+}
+
+/* floating effect */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* --- DEFAULT COLORS --- */
+.default-colors {
+  margin: 3vh 0 2vh;
+  display: flex; justify-content: center; gap: 15px;
+}
+.default-swatch {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 10px rgba(51,102,255,0.6);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.default-swatch:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(51,102,255,0.9), 0 0 25px rgba(51,102,255,0.6);
+}
+
+/* --- MOBILE FIX --- */
+@media (max-width: 768px) {
+  body { padding: 6vw 3vw; }
+  .switch-wrapper, .wheel-container { width: 90%; }
+  .icon-arc { width: 100%; height: 200px; }
+  .icon-slot img { animation: spin 4s linear infinite; }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+}
+
+
+ </style>
+</head>
+<body>
+<div id="wallOverlay"></div>
+<h2>Customize Your Switch Board Color</h2>
+
+  <div class="switch-wrapper">
+    <img id="switchBoard" src="pic.png" alt="Switch Board">
+    <div id="colorOverlay"></div>
+  </div>
+<div class="default-colors">
+  <div class="default-swatch" data-color="#000000" title="Black"></div>
+  <div class="default-swatch" data-color="#ffffff" title="White"></div>
+  <div class="default-swatch" data-color="#bfae9f" title="Golden Gray"></div>
+  <div class="default-swatch" data-color="#c0c0c0" title="Silver Gray"></div>
+</div>
+
+
+  <div class="wheel-container" id="wheelContainer">
+    <div class="center-hub" id="centerHub"></div>
+  </div>
+
+  <div class="preview" id="previewBox"></div>
+  <div class="hex-label" id="hexLabel">#3366ff</div>
+
+  <div class="shade-chart" id="shadeChart"></div>
+<button id="showIconsBtn" class="icon-trigger">Custom Icons</button>
+  <div id="iconArc" class="icon-arc"></div>
+
+  <script>
+    const colors = [
+      "#ff0000", "#ff7f00", "#ffff00", "#7fff00", "#00ff00", "#00ff7f",
+      "#00ffff", "#007fff", "#0000ff", "#7f00ff", "#ff00ff", "#ff007f"
+    ];
+
+    const wheel = document.getElementById('wheelContainer');
+    const previewBox = document.getElementById('previewBox');
+    const hexLabel = document.getElementById('hexLabel');
+    const centerHub = document.getElementById('centerHub');
+    const shadeChart = document.getElementById('shadeChart');
+    const colorOverlay = document.getElementById('colorOverlay');
+
+    const radius = 120;
+    const centerX = wheel.offsetWidth / 2;
+    const centerY = wheel.offsetHeight / 2;
+
+    colors.forEach((color, i) => {
+      const angle = (2 * Math.PI / colors.length) * i;
+      const x = centerX + radius * Math.cos(angle) - 20;
+      const y = centerY + radius * Math.sin(angle) - 20;
+
+      const swatch = document.createElement('div');
+      swatch.className = 'swatch';
+      swatch.style.background = color;
+      swatch.style.left = `${x}px`;
+      swatch.style.top = `${y}px`;
+
+      swatch.onclick = () => {
+        previewBox.style.background = color;
+        hexLabel.textContent = color;
+        centerHub.style.background = color;
+        colorOverlay.style.backgroundColor = color;
+        renderShades(color);
+document.getElementById('wallOverlay').style.backgroundColor = color; // for swatch
+      };
+
+      wheel.appendChild(swatch);
+    });
+
+    function renderShades(baseHex) {
+      shadeChart.innerHTML = '';
+      const rgb = hexToRgb(baseHex);
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+
+      for (let l = 100; l >= 10; l -= 10) {
+        const color = `hsl(${hsl.h}, ${hsl.s}%, ${l}%)`;
+        const hex = hslToHex(hsl.h, hsl.s, l);
+        const shade = document.createElement('div');
+        shade.className = 'shade';
+        shade.style.background = color;
+        shade.title = hex;
+        shade.onclick = () => {
+          previewBox.style.background = hex;
+          hexLabel.textContent = hex;
+          centerHub.style.background = hex;
+          colorOverlay.style.backgroundColor = hex;
+document.getElementById('wallOverlay').style.backgroundColor = hex; // for shade
+        };
+        shadeChart.appendChild(shade);
+      }
+    }
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.replace('#', ''), 16);
+      return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+      };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h *= 60;
+      }
+      return { h: Math.round(h), s: Math.round(s * 100), l: Math.round(l * 100) };
+    }
+
+    function hslToHex(h, s, l) {
+      s /= 100; l /= 100;
+      const c = (1 - Math.abs(2 * l - 1)) * s;
+      const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+      const m = l - c / 2;
+      let r = 0, g = 0, b = 0;
+
+      if (h < 60) { r = c; g = x; b = 0; }
+      else if (h < 120) { r = x; g = c; b = 0; }
+      else if (h < 180) { r = 0; g = c; b = x; }
+      else if (h < 240) { r = 0; g = x; b = c; }
+      else if (h < 300) { r = x; g = 0; b = c; }
+      else { r = c; g = 0; b = x; }
+
+      r = Math.round((r + m) * 255);
+      g = Math.round((g + m) * 255);
+      b = Math.round((b + m) * 255);
+
+      return "#" + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Initialize with default color
+    setTimeout(() => {
+      wheel.querySelector('.swatch').click();
+    }, 100);
+document.querySelectorAll('.default-swatch').forEach(swatch => {
+  swatch.style.backgroundColor = swatch.dataset.color;
+
+  swatch.onclick = () => {
+    const color = swatch.dataset.color;
+    previewBox.style.background = color;
+    hexLabel.textContent = color;
+    centerHub.style.background = color;
+    colorOverlay.style.backgroundColor = color;
+    document.getElementById('wallOverlay').style.backgroundColor = color;
+    renderShades(color);
+  };
+});
+
+document.getElementById('showIconsBtn').onclick = () => {
+  const arc = document.getElementById('iconArc');
+  arc.innerHTML = '';
+
+  const totalIcons = 20;
+  const arcRadius = 500;
+  const arcCenterX = 300;
+  const arcCenterY = -400;
+  const iconSpeed = 0.002; // lower = slower
+  const icons = [];
+
+  for (let i = 0; i < totalIcons; i++) {
+    const icon = document.createElement('div');
+    icon.className = 'icon-slot';
+
+    const img = document.createElement('img');
+    img.src = `icons/icon${(i % totalIcons) + 1}.svg`;
+    img.alt = `Icon ${i + 1}`;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'contain';
+
+    icon.appendChild(img);
+    arc.appendChild(icon);
+
+    icons.push({ element: icon, progress: i / totalIcons });
+  }
+
+  function animate() {
+    icons.forEach(iconData => {
+      iconData.progress -= iconSpeed;
+      if (iconData.progress < 0) iconData.progress += 1;
+
+      const angle = Math.PI * iconData.progress;
+      const x = arcCenterX + arcRadius * Math.cos(angle) - 30;
+      const y = arcCenterY + arcRadius * Math.sin(angle) - 30;
+      const rotation = angle * (180 / Math.PI) - 90;
+
+      iconData.element.style.left = `${x}px`;
+      iconData.element.style.top = `${y}px`;
+      iconData.element.style.transform = `rotate(${rotation}deg)`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+};
+
+
+
+  </script>

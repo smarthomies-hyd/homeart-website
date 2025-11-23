@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">HOME ART</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="customizer.html">Customizer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Switchboard Gallery | HOME ART AUTOMATION & LIGHTING</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background-color: #1f1f1f;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .gallery-section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .gallery-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .gallery-grid img {
+      width: 280px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      background-color: #1f1f1f;
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 40px;
+    }
+navbar {
+      background-color: #1f1f1f;
+      padding: 10px 20px;
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      color: #ffcc00;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .nav-links a:hover {
+      color: #ffcc00;
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        flex-direction: column;
+        background: #1f1f1f;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 10px;
+        display: none;
+      }
+.gallery-group {
+  margin-bottom: 40px;
+}
+.gallery-group h3 {
+  font-size: 1.4em;
+  margin-bottom: 15px;
+  color: #3366ff;
+}
+.icon-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+.icon-item {
+  text-align: center;
+  width: 100px;
+}
+.icon-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.icon-item p {
+  margin-top: 6px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+.material-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+.material-item {
+  text-align: center;
+  width: 100px;
+}
+.material-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+.material-item p {
+  margin-top: 6px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Switchboard Design Gallery</h1>
+    <p>Explore our premium finishes, layouts, and styles</p>
+  </header>
+
+<section class="gallery-section">
+  <div class="gallery-grid">
+
+    <div class="gallery-group">
+      <h3>Modern Touch Panel</h3>
+      <img src="images/modern-switch.png" alt="Modern Switchboard Design" />
+      <img src="images/modern-switch2.png" alt="Modern Switchboard Design" />
+      <img src="images/modern-switch3.png" alt="Modern Switchboard Design" />
+      <img src="images/modern-switch4.png" alt="Modern Switchboard Design" />
+    </div>
+
+ <div class="gallery-group">
+  <h3>Modern Materials</h3>
+  <div class="material-row">
+    <div class="material-item">
+      <img src="images/wood.png" alt="Wood" />
+      <p>Wood</p>
+    </div>
+    <div class="material-item">
+      <img src="images/acrylic.png" alt="Acrylic" />
+      <p>Acrylic</p>
+    </div>
+    <div class="material-item">
+      <img src="images/glass.png" alt="Glass" />
+      <p>Glass</p>
+    </div>
+    <div class="material-item">
+      <img src="images/marble.png" alt="Marble" />
+      <p>Marble</p>
+    </div>
+  </div>
+</div>
+
+
+    <div class="gallery-group">
+      <h3>Modern Colour</h3>
+      <div class="icon-row">
+        <div class="icon-item"><img src="images/black.png" alt="Black" /><p>Black</p></div>
+        <div class="icon-item"><img src="images/silver-grey.png" alt="Silver Grey" /><p>Silver Grey</p></div>
+        <div class="icon-item"><img src="images/morning-glory.png" alt="Morning Glory" /><p>Morning Glory</p></div>
+        <div class="icon-item"><img src="images/golden-grey.png" alt="Golden Grey" /><p>Golden Grey</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+      </section>
+
+  <footer>
+    <p>&copy; 2025 HOME ART AUTOMATION & LIGHTING. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

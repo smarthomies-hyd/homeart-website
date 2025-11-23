@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HOMEART Bubble Reveal</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .bubble {
+      position: absolute;
+      background: radial-gradient(circle, #fffcaa 0%, #fffcaa33 70%, transparent 100%);
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 20px;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 1s ease;
+      box-shadow: 0 0 20px #fffcaa;
+      text-align: center;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+    }
+
+
+
+    .bubble.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.05); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .list-view {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .list-item {
+      color: #fff;
+      font-size: 24px;
+      margin: 10px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .list-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 20;
+      animation: fadeOut 2s ease forwards;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene" id="scene">
+    <div class="overlay"></div>
+
+   <!-- Bubble elements -->
+    <div class="bubble" id="b1" style="top:20%; left:25%;">Aurora Pendant</div>
+    <div class="bubble" id="b2" style="top:40%; left:60%;">Luxe Beam Strip</div>
+    <div class="bubble" id="b3" style="top:65%; left:35%;">Halo Ceiling Glow</div>
+    <div class="bubble" id="b4" style="top:75%; left:70%;">Zen Spot Focus</div>
+    <div class="bubble" id="b5" style="top:30%; left:80%;">Ambient Arc Floor</div>
+
+    <!-- Final list view -->
+    <div class="list-view" id="listView">
+      <div class="list-item">Aurora Pendant</div>
+      <div class="list-item">Luxe Beam Strip</div>
+      <div class="list-item">Halo Ceiling Glow</div>
+      <div class="list-item">Zen Spot Focus</div>
+      <div class="list-item">Ambient Arc Floor</div>
+    </div>
+  </div>
+
+<script>
+  const bubbles = document.querySelectorAll('.bubble');
+  const listItems = document.querySelectorAll('.list-item');
+  const listView = document.getElementById('listView');
+
+  const bubbleDuration = 3500; // Time each bubble stays visible (ms)
+
+  bubbles.forEach((bubble, i) => {
+    setTimeout(() => {
+      // Hide all bubbles
+      bubbles.forEach(b => b.classList.remove('visible'));
+
+      // Show current bubble
+      bubble.classList.add('visible');
+    }, i * bubbleDuration);
+  });
+
+  // After all bubbles have been shown, transition to list view
+  const totalDuration = bubbles.length * bubbleDuration;
+
+  setTimeout(() => {
+    // Hide all bubbles
+    bubbles.forEach(b => b.style.display = 'none');
+
+    // Show list view
+    listView.style.display = 'flex';
+
+    // Reveal list items one by one
+    listItems.forEach((item, i) => {
+      setTimeout(() => item.classList.add('visible'), i * 500);
+    });
+  }, totalDuration + 1000); // Add buffer before list view
+</script>
+</html>
